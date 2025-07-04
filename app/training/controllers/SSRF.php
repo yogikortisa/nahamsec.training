@@ -93,7 +93,7 @@ class SSRF
             $continue = true;
             if( substr($_POST["url"],0,7) == 'http://' || substr($_POST["url"],0,8) == 'https://' ){
                 $url_sp = explode("/",$_POST["url"]);
-                if( $url_sp[2] == 'naham.sec' || substr($url_sp[2],-18,18) == '.naham.sec' ){
+                if( $url_sp[2] == 'naham.sec' || substr($url_sp[2],-10,10) == '.naham.sec' ){
                 }else{
                     $continue = false;
                     $data["error"] = 'Only URLs from the naham.sec domain are allowed!';
@@ -159,7 +159,7 @@ class SSRF
             if (filter_var($_POST["url"], FILTER_VALIDATE_URL)) {
                 $url = escapeshellarg($_POST["url"]);
                 $pdf = md5(microtime().rand().print_r($_SERVER,true));
-                system("google-chrome-stable --headless --disable-gpu --print-to-pdf=screenshots/".$pdf.".pdf ".$url);
+                system("google-chrome-stable --no-sandbox --headless --disable-gpu --print-to-pdf=screenshots/".$pdf.".pdf ".$url);
                 \View::redirect('/screenshots/'.$pdf.'.pdf');
             } else {
                 $data["error"] = 'The URL entered is invalid';
